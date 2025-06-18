@@ -1,5 +1,10 @@
 package com.udemy.projetospring.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -7,8 +12,12 @@ import java.util.Objects;
  *
  * @author carol
  */
+@Entity
+@Table(name = "tb_user")
 public class User implements Serializable{
     
+    @Id 
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String phone;
