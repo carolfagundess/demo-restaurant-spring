@@ -1,7 +1,6 @@
 package com.udemy.projetospring.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.udemy.projetospring.entities.enums.OrderStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -102,6 +101,14 @@ public class Order implements Serializable {
 
     public void setClient(User client) {
         this.client = client;
+    }
+    
+    public Double getTotal(){
+        double sum = 0;
+        for (OrderItem item : items) {
+            sum = sum + item.getSubtotal();
+        }
+        return sum;
     }
 
     @Override
