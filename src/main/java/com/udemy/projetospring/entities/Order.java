@@ -38,7 +38,6 @@ public class Order implements Serializable {
     private User client;
     
     //ASSOCIACAO UM PEDIDO PARA MUITOS ITEMS // armazenas os items do pedido
-
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items = new HashSet<>();
 

@@ -45,6 +45,7 @@ public class OrderItem implements Serializable {
     }
 
     //classe para definir a chave primaria
+    @JsonIgnore
     public Product getProduct() {
         return id.getProduct();
     }
