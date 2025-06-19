@@ -1,12 +1,17 @@
-
 package com.udemy.projetospring.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  *
@@ -14,8 +19,8 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "tb_product")
-public class Product {
-    
+public class Product implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -23,6 +28,12 @@ public class Product {
     private String description;
     private Double price;
     private String imgURL;
+
+    //associacao
+    //set é uma interface precisa instanciar o hashset
+    @ManyToMany
+    @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories = new HashSet<>();
 
     public Product() {
     }
@@ -37,6 +48,10 @@ public class Product {
 
     public Integer getId() {
         return id;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
     }
 
     public void setId(Integer id) {
@@ -96,7 +111,5 @@ public class Product {
         final Product other = (Product) obj;
         return Objects.equals(this.id, other.id);
     }
-    
-    
-    
+
 }

@@ -2,10 +2,12 @@ package com.udemy.projetospring.config;
 
 import com.udemy.projetospring.entities.Category;
 import com.udemy.projetospring.entities.Order;
+import com.udemy.projetospring.entities.Product;
 import com.udemy.projetospring.entities.User;
 import com.udemy.projetospring.entities.enums.OrderStatus;
 import com.udemy.projetospring.repositories.CategoryRepository;
 import com.udemy.projetospring.repositories.OrderRepository;
+import com.udemy.projetospring.repositories.ProductRepository;
 import com.udemy.projetospring.repositories.UserRepository;
 import java.time.Instant;
 import java.util.Arrays;
@@ -28,15 +30,31 @@ public class TestConfig implements CommandLineRunner {
     private OrderRepository orderRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     public void run(String... args) throws Exception {
 
         Category cat1 = new Category(null, "Bolos");
         Category cat2 = new Category(null, "Cookies");
-        Category cat3 = new Category(null, "Café com leite");
+        Category cat3 = new Category(null, "Bebidas");
+        Category cat4 = new Category(null, "Massa folhada");
+
+        Product p1 = new Product(null, "Cookie Duplo Chocolate", "Cookie com gotas de chocolate meio amargo", 6.50, "cookie_chocolate.jpg");
+        Product p2 = new Product(null, "Croissant", "Croissant folhado tradicional francês", 7.80, "croissant.jpg");
+        Product p3 = new Product(null, "Cappuccino", "Cappuccino cremoso com canela", 9.50, "cappuccino.jpg");
+        Product p4 = new Product(null, "Cheesecake", "Cheesecake de frutas vermelhas", 22.00, "cheesecake.jpg");
+
+        categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4));
+        productRepository.saveAll(Arrays.asList(p1, p2, p3, p4));
+
+        p1.getCategories().add(cat2);
+        p2.getCategories().add(cat4);
+        p3.getCategories().add(cat3);
+        p4.getCategories().add(cat1);
         
-        categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
+        productRepository.saveAll(Arrays.asList(p1, p2, p3, p4));
 
         User u1 = new User(null, "Maria Brown", "988888888");
         User u2 = new User(null, "Alex Green", "977777777");
