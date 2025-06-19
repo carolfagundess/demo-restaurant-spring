@@ -1,11 +1,15 @@
 package com.udemy.projetospring.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -14,13 +18,15 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "tb_user")
-public class User implements Serializable{
-    
-    @Id 
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+public class User implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String phone;
+
+    private List<Order> orders = new ArrayList<>();
 
     public User() {
     }
@@ -29,6 +35,12 @@ public class User implements Serializable{
         this.id = id;
         this.nome = nome;
         this.phone = phone;
+    }
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "client")
+    public List<Order> getOrders() {
+        return orders;
     }
 
     public Long getId() {
@@ -76,6 +88,5 @@ public class User implements Serializable{
         final User other = (User) obj;
         return Objects.equals(this.id, other.id);
     }
-    
-    
+
 }
