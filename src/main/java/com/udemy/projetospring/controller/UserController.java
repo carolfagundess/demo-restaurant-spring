@@ -1,9 +1,7 @@
 package com.udemy.projetospring.controller;
 
 import com.udemy.projetospring.entities.User;
-import com.udemy.projetospring.repositories.UserRepository;
 import com.udemy.projetospring.services.UserService;
-import jakarta.servlet.Servlet;
 import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

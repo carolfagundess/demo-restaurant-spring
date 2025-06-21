@@ -2,6 +2,7 @@ package com.udemy.projetospring.services;
 
 import com.udemy.projetospring.entities.User;
 import com.udemy.projetospring.repositories.UserRepository;
+import com.udemy.projetospring.services.exceptions.ResourceNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,12 @@ public class UserService {
 
     //repository retorna um optional, que ira retornar o objeto implementado
     public User findById(Long id) {
+        System.out.println("Buscando usuário ID: " + id); // Log simples
         Optional<User> obj = userRepository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> {
+            System.out.println("Usuário não encontrado: " + id); // Log do erro
+            return new ResourceNotFoundException(id);
+        });
     }
 
     public User insert(User obj) {
