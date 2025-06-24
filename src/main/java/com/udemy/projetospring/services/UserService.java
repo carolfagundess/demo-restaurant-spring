@@ -3,10 +3,14 @@ package com.udemy.projetospring.services;
 import com.udemy.projetospring.entities.User;
 import com.udemy.projetospring.repositories.UserRepository;
 import com.udemy.projetospring.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  *
@@ -37,13 +41,20 @@ public class UserService {
     }
 
     public void delete(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new ResourceNotFoundException(id);
+        }
         userRepository.deleteById(id);
     }
 
     public User update(Long id, User obj) {
-        User entity = userRepository.getReferenceById(id);
-        updateData(entity, obj);
-        return userRepository.save(entity);
+        try {
+            User entUser = userRepository.getReferenceById(id);
+            updateData(entUser, obj);
+            return userRepository.save(entUser);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     private void updateData(User entity, User obj) {
